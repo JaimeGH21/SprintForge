@@ -1,0 +1,69 @@
+package es.uclm.sprintforge.presentation;
+
+import javax.swing.*;
+import java.awt.*;
+import es.uclm.sprintforge.controller.GestorInmuebles;
+import es.uclm.sprintforge.entity.Inmueble;
+
+public class AltaInmueble extends JFrame {
+    private JTextField txtId, txtDireccion, txtPrecio;
+    private JButton btnGuardar, btnCancelar;
+    private GestorInmuebles gestorInmuebles;
+
+    public AltaInmueble() {
+        gestorInmuebles = new GestorInmuebles();
+        
+        setTitle("SprintForge - Alta Inmueble");
+        setSize(350, 250);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLayout(new GridLayout(4, 2, 10, 10));
+        setLocationRelativeTo(null);
+
+        // Etiquetas y campos de texto
+        add(new JLabel("  ID:"));
+        txtId = new JTextField();
+        add(txtId);
+
+        add(new JLabel("  Dirección:"));
+        txtDireccion = new JTextField();
+        add(txtDireccion);
+
+        add(new JLabel("  Precio/Noche:"));
+        txtPrecio = new JTextField();
+        add(txtPrecio);
+
+        // Botones de acción
+        btnCancelar = new JButton("Cancelar");
+        btnGuardar = new JButton("Guardar");
+        
+        add(btnCancelar);
+        add(btnGuardar);
+
+        // Evento para cerrar la ventana
+        btnCancelar.addActionListener(e -> dispose());
+
+        // Evento para guardar en la BD
+        btnGuardar.addActionListener(e -> {
+            try {
+                String id = txtId.getText();
+                String dir = txtDireccion.getText();
+                double precio = Double.parseDouble(txtPrecio.getText());
+
+                if (id.isEmpty() || dir.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Rellena todos los campos");
+                    return;
+                }
+
+                // Creamos la entidad y llamamos al controlador
+                Inmueble inmueble = new Inmueble(id, dir, precio);
+                gestorInmuebles.darAltaInmueble(inmueble);
+
+                JOptionPane.showMessageDialog(this, "Inmueble guardado correctamente");
+                dispose(); 
+                
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "El precio debe ser un número");
+            }
+        });
+    }
+}
