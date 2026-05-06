@@ -19,10 +19,14 @@ public class MenuPrincipal extends JFrame {
         add(btnGestionar);
         add(btnBuscar);
 
-        // Acción para ir a la ventana de alta que crearemos luego
+        // Acción para el Propietario: Abre AltaInmueble
         btnGestionar.addActionListener(e -> {
-            // Nueva VentanaAltaInmueble().setVisible(true);
-            JOptionPane.showMessageDialog(this, "Accediendo a gestión de inmuebles...");
+            new AltaInmueble().setVisible(true);
+        });
+
+        // Acción para el Inquilino: Abre BusquedaInmuebles
+        btnBuscar.addActionListener(e -> {
+            new BusquedaInmuebles().setVisible(true);
         });
 
         setLocationRelativeTo(null);
