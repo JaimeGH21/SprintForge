@@ -11,7 +11,7 @@ public class GestorInquilinos {
     private InquilinoDAO inquilinoDAO;
 
     public boolean registrarInquilino(String login, String pass, String nombre, String apellidos, String direccion) {
-        if (inquilinoDAO.existsById(login)) { // CORREGIDO AQUÍ
+        if (inquilinoDAO.existsById(login)) { 
             return false; 
         }
         Inquilino nuevoInquilino = new Inquilino(login, pass, nombre, apellidos, direccion);
