@@ -1,3 +1,4 @@
+/*
 package es.uclm.sprintforge.persistencia;
 
 import es.uclm.sprintforge.dominio.Reserva;
@@ -20,3 +21,4 @@ public class ReservaDAO {
         gestorBD.insert(sql);
     }
 }
+*/

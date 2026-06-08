@@ -1,3 +1,4 @@
+/*
 package es.uclm.sprintforge.persistencia;
 
 import es.uclm.sprintforge.dominio.Inmueble;
@@ -18,3 +19,4 @@ public class InmuebleDAO {
         gestorBD.insert(sql);
     }
 }
+*/

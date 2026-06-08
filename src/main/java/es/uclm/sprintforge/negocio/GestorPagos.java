@@ -1,3 +1,4 @@
+/*
 package es.uclm.sprintforge.negocio;
 
 import es.uclm.sprintforge.dominio.Pago;
@@ -16,4 +17,4 @@ public void procesarPago(Reserva reserva, Pago pago) {
         reserva.setPagado(false);
     }
 }
-
+*/
