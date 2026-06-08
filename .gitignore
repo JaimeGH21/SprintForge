@@ -6,3 +6,4 @@ target/
 .project
 .metadata/
 bin/
+sprintforge.db
