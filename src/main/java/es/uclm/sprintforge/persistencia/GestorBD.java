@@ -8,6 +8,8 @@ import java.sql.Statement;
 public class GestorBD {
     private static final String URL = "jdbc:sqlite:sprintforge.db";
     
+    
+    
     public GestorBD() {
         try {
             Class.forName("org.sqlite.JDBC");

@@ -56,10 +56,10 @@ public class VentanaRegistro extends JFrame {
             nuevoUsuario.setPassword(passEscrita);
 
 
-            UsuarioDAO dao = new UsuarioDAO();
-            dao.registrarUsuario(nuevoUsuario);
-
-
+            es.uclm.sprintforge.negocio.GestorUsuarios gestor = new es.uclm.sprintforge.negocio.GestorUsuarios();
+            gestor.registrarUsuario(nuevoUsuario);
+            
+            
             JOptionPane.showMessageDialog(this, "¡Usuario registrado con éxito en la base de datos!");
             dispose(); 
             
