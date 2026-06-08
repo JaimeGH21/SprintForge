@@ -1,28 +1,25 @@
 package es.uclm.sprintforge.persistencia;
+
 import es.uclm.sprintforge.dominio.Usuario;
 
-public class UsuarioDAO extends AbstractEntityDAO {
+public class UsuarioDAO {
+    
+    private GestorBD gestorBD;
 
     public UsuarioDAO() {
-        super();
+        this.gestorBD = new GestorBD();
     }
 
-    @Override
-    public void saveEntity() {
-        System.out.println("Usuario guardado en la base de datos.");
+    public boolean verificarUsuario(String login, String password) {
+        return true; 
     }
 
-    @Override
-    public Usuario selectEntity() {
-        return new Usuario();
-    }
-
-
-  @Override
-    public void updateEntity() {
-    }
-
-    @Override
-    public void deleteEntity() {
+    public boolean insertarUsuario(Usuario usuario) {
+        // Guardamos el nuevo usuario en la base de datos
+        String sql = "INSERT INTO Usuarios (login, password) VALUES ('" + usuario.getLogin() + "', '" + usuario.getPassword() + "');";
+        gestorBD.insert(sql);
+        return true;
     }
 }
+
+

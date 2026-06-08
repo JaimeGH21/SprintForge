@@ -1,22 +1,21 @@
 package es.uclm.sprintforge.persistencia;
 
-import es.uclm.sprintforge.dominio.Reserva;
-
 public class ReservaDAO {
-
+    
     private GestorBD gestorBD;
 
     public ReservaDAO() {
         this.gestorBD = new GestorBD();
     }
 
-    public void guardarReserva(Reserva r, String inquilinoLogin, int inmuebleId) {
-        int pagadoNumeric = r.isPagado() ? 1 : 0; 
+
+    public void registrarReserva(String direccion, String fechaInicio, String fechaFin, String titular) {
         
-        String sql = "INSERT INTO Reservas (fechaInicio, fechaFin, pagado, activa, inquilino_login, inmueble_id) " +
-                     "VALUES ('" + r.getFechaInicio() + "', '" + r.getFechaFin() + "', " +
-                     pagadoNumeric + ", 1, '" + inquilinoLogin + "', " + inmuebleId + ");";
+        String sql = "INSERT INTO Reservas (direccion_inmueble, fecha_inicio, fecha_fin, titular_pago) " +
+                     "VALUES ('" + direccion + "', '" + fechaInicio + "', '" + fechaFin + "', '" + titular + "');";
         
         gestorBD.insert(sql);
     }
 }
+
+

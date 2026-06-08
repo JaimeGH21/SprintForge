@@ -5,3 +5,4 @@ public enum PoliticaCancelacion {
     REEMBOLSABLE, 
     REEMBOLSABLE_50_PER
 }
+
