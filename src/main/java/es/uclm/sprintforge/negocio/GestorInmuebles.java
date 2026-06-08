@@ -1,3 +1,4 @@
+/*
 package es.uclm.sprintforge.negocio;
 
 import es.uclm.sprintforge.dominio.Inmueble;
@@ -11,4 +12,4 @@ public class GestorInmuebles {
         System.out.println("Registrando inmueble en la dirección: " + inmueble.getDireccion());
     }
 }
-
+*/

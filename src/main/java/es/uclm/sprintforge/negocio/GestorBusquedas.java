@@ -1,3 +1,4 @@
+/*
 package es.uclm.sprintforge.negocio;
 
 import es.uclm.sprintforge.dominio.Inmueble;
@@ -13,4 +14,4 @@ public class GestorBusquedas {
         return new ArrayList<>();
     }
 }
-
+*/

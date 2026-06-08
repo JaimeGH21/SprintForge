@@ -1,1 +1,8 @@
-/target/
+*.db
+*.sqlite
+target/
+.settings/
+.classpath
+.project
+.metadata/
+bin/
