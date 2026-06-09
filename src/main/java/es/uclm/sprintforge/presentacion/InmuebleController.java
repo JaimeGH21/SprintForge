@@ -20,11 +20,28 @@ public class InmuebleController {
         return "listarInmuebles";
     }
 
+    @GetMapping("/buscar")
+    public String buscarInmuebles(@RequestParam String fechaInicio, 
+                                  @RequestParam String fechaFin, 
+                                  Model model) {
+        model.addAttribute("lista", gestorInmuebles.buscarPorFechas(fechaInicio, fechaFin));
+        model.addAttribute("fechaInicio", fechaInicio);
+        model.addAttribute("fechaFin", fechaFin);
+        return "listarInmuebles";
+    }
+
     @PostMapping("/guardarInmueble")
     public String guardarInmueble(@RequestParam String direccion, 
                                   @RequestParam double precio, 
-                                  @RequestParam String descripcion) {
-        gestorInmuebles.publicarInmueble(direccion, precio, descripcion);
-        return "redirect:/listarInmuebles";
+                                  @RequestParam String descripcion,
+                                  @RequestParam String fechaInicio,
+                                  @RequestParam String fechaFin,
+                                  Model model) {
+        boolean guardado = gestorInmuebles.publicarInmueble(direccion, precio, descripcion, fechaInicio, fechaFin);
+        if (!guardado) {
+            model.addAttribute("error", "¡Conflicto de fechas! El inmueble ya está ocupado en ese periodo.");
+        }
+        model.addAttribute("lista", gestorInmuebles.obtenerTodos());
+        return "listarInmuebles";
     }
 }
