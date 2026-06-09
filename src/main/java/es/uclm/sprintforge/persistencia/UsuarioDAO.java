@@ -1,9 +1,8 @@
 package es.uclm.sprintforge.persistencia;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import es.uclm.sprintforge.dominio.Usuario;
 
-@Repository
-public interface UsuarioDAO extends JpaRepository<Usuario, String> {
+public interface UsuarioDAO extends JpaRepository<Usuario, Long> {
+    Usuario findByLogin(String login);
 }

@@ -16,7 +16,7 @@ public class GestorInmuebles {
     @Autowired private InmuebleDAO inmuebleDAO;
     @Autowired private DisponibilidadDAO disponibilidadDAO;
 
-    public boolean publicarInmueble(String dir, double prec, String desc, String fInicio, String fFin) {
+    public boolean publicarInmueble(String dir, double prec, String desc, String fInicio, String fFin, boolean directa) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date inicio = sdf.parse(fInicio);
@@ -26,7 +26,7 @@ public class GestorInmuebles {
                 return false;
             }
 
-            Inmueble i = new Inmueble(dir, prec, desc);
+            Inmueble i = new Inmueble(dir, prec, desc, directa);
             inmuebleDAO.save(i);
 
             Disponibilidad d = new Disponibilidad();
@@ -39,7 +39,6 @@ public class GestorInmuebles {
             return false; 
         }
     }
-
     public List<Inmueble> obtenerTodos() { 
         return inmuebleDAO.findAll(); 
     }

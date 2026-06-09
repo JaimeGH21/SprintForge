@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Añadir Inmueble</title>
+</head>
+<body>
+    <h2>Publicar Nuevo Inmueble</h2>
+    
+    <form action="/inmueble/guardar" method="post">
+        <input type="text" name="direccion" placeholder="Dirección" required><br>
+        <input type="number" name="precio" placeholder="Precio" required><br>
+        <textarea name="descripcion" placeholder="Descripción"></textarea><br>
+        
+        <label>¿Reserva inmediata?</label>
+        <select name="directa">
+            <option value="true">Sí (Directa)</option>
+            <option value="false">No (Solicitud)</option>
+        </select>
+        <br><br>
+        <button type="submit">Guardar Inmueble</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Solicitudes</title>
+</head>
+<body>
+    <h2>Solicitudes Pendientes</h2>
+    
+    <div th:if="${param.confirmada}" style="color:green; font-weight:bold;">Reserva confirmada correctamente.</div>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Inmueble</th>
+                <th>Inquilino</th>
+                <th>Fechas</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="solicitud : ${solicitudes}">
+                <td th:text="${solicitud.inmueble.direccion}"></td>
+                <td th:text="${solicitud.usuario.login}"></td>
+                <td th:text="${#dates.format(solicitud.fechaInicio, 'dd/MM/yyyy')} + ' al ' + ${#dates.format(solicitud.fechaFin, 'dd/MM/yyyy')}"></td>
+                <td>
+                    <form th:action="@{/propietario/confirmar/{id}(id=${solicitud.id})}" method="post">
+                        <button type="submit">Confirmar</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <a href="/reservas">Volver a mis reservas</a>
+</body>
+</html>

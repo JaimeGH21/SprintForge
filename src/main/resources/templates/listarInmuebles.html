@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"><title>Gestión de Inmuebles</title></head>
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Inmuebles</title>
+</head>
 <body>
     <h2>Buscar disponibilidad</h2>
     <form action="/buscar" method="get">
@@ -9,26 +12,44 @@
         <button type="submit">Filtrar</button>
         <a href="/listarInmuebles">Ver todos</a>
     </form>
+    
     <hr/>
-    <h2>Añadir nuevo inmueble</h2>
-    <p th:if="${error}" th:text="${error}" style="color:red; font-weight:bold;"></p>
-    <form action="/guardarInmueble" method="post">
-        <input type="text" name="direccion" placeholder="Dirección" required/>
-        <input type="number" step="0.01" name="precio" placeholder="Precio" required/>
-        <input type="text" name="descripcion" placeholder="Descripción" required/>
-        <br>
-        Disponibilidad inicial: <input type="date" name="fechaInicio" required/> a <input type="date" name="fechaFin" required/>
-        <button type="submit">Guardar</button>
-    </form>
+    
+    <h2>Acciones</h2>
+    <a href="/inmueble/nuevo"><button>Añadir nuevo inmueble</button></a>
+    
     <hr/>
+    
     <h2>Inmuebles Disponibles</h2>
+    
+    <p th:if="${param.reservaExito}" style="color:green; font-weight:bold;">¡Reserva realizada con éxito!</p>
+    <p th:if="${param.errorReserva}" style="color:red; font-weight:bold;">Error: Comprueba que el usuario existe o los datos son correctos.</p>
+
     <table border="1">
-        <thead><tr><th>Dirección</th><th>Precio</th><th>Descripción</th></tr></thead>
+        <thead>
+            <tr>
+                <th>Dirección</th>
+                <th>Precio</th>
+                <th>Descripción</th>
+                <th>Reservar</th>
+            </tr>
+        </thead>
         <tbody>
             <tr th:each="inmueble : ${lista}">
                 <td th:text="${inmueble.direccion}"></td>
                 <td th:text="${inmueble.precio}"></td>
                 <td th:text="${inmueble.descripcion}"></td>
+                <td>
+                    <form action="/reservar" method="post">
+                        <input type="hidden" name="idInmueble" th:value="${inmueble.id}" />
+                        
+                        <input type="text" name="loginUsuario" placeholder="Tu Login" required style="margin-bottom: 4px;"/><br>
+                        Inicio: <input type="date" name="fechaInicio" required style="margin-bottom: 4px;"/><br>
+                        Fin: <input type="date" name="fechaFin" required style="margin-bottom: 4px;"/><br>
+                        
+                        <button type="submit">Hacer Reserva</button>
+                    </form>
+                </td>
             </tr>
         </tbody>
     </table>

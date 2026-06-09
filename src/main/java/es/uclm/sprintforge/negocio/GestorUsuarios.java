@@ -7,15 +7,16 @@ import es.uclm.sprintforge.persistencia.UsuarioDAO;
 
 @Service
 public class GestorUsuarios {
+    
     @Autowired
     private UsuarioDAO usuarioDAO;
 
     public boolean validarUsuario(String login, String pass) {
-        return usuarioDAO.findById(login)
-                         .map(u -> u.getPass().equals(pass))
-                         .orElse(false);
+        Usuario u = usuarioDAO.findByLogin(login);
+        return u != null && u.getPass().equals(pass);
     }
+    
     public Usuario buscarUsuario(String login) {
-        return usuarioDAO.findById(login).orElse(null);
+        return usuarioDAO.findByLogin(login);
     }
 }
