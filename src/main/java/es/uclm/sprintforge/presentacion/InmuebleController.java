@@ -28,4 +28,11 @@ public class InmuebleController {
         inmuebleDAO.save(i);
         return "redirect:/home?creado";
     }
+
+    // --- LO NUEVO: ELIMINAR ---
+    @PostMapping("/eliminar")
+    public String eliminarInmueble(@RequestParam Long id) {
+        inmuebleDAO.deleteById(id);
+        return "redirect:/listarInmuebles?eliminado";
+    }
 }

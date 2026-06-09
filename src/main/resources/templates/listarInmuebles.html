@@ -24,6 +24,7 @@
     
     <p th:if="${param.reservaExito}" style="color:green; font-weight:bold;">¡Reserva realizada con éxito!</p>
     <p th:if="${param.errorReserva}" style="color:red; font-weight:bold;">Error: Comprueba que el usuario existe o los datos son correctos.</p>
+    <p th:if="${param.eliminado}" style="color:green; font-weight:bold;">Inmueble eliminado correctamente.</p>
 
     <table border="1">
         <thead>
@@ -32,6 +33,7 @@
                 <th>Precio</th>
                 <th>Descripción</th>
                 <th>Reservar</th>
+                <th>Eliminar</th>
             </tr>
         </thead>
         <tbody>
@@ -42,12 +44,16 @@
                 <td>
                     <form action="/reservar" method="post">
                         <input type="hidden" name="idInmueble" th:value="${inmueble.id}" />
-                        
                         <input type="text" name="loginUsuario" placeholder="Tu Login" required style="margin-bottom: 4px;"/><br>
                         Inicio: <input type="date" name="fechaInicio" required style="margin-bottom: 4px;"/><br>
                         Fin: <input type="date" name="fechaFin" required style="margin-bottom: 4px;"/><br>
-                        
                         <button type="submit">Hacer Reserva</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="/inmueble/eliminar" method="post" onsubmit="return confirm('¿Seguro que quieres eliminar este inmueble?');">
+                        <input type="hidden" name="id" th:value="${inmueble.id}" />
+                        <button type="submit" style="background-color: red; color: white;">Eliminar</button>
                     </form>
                 </td>
             </tr>
