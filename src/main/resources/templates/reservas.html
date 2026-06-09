@@ -1,18 +1,59 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mis Reservas</title>
+</head>
 <body>
-    <h1>Mis Reservas</h1>
+    <h2>Mis Reservas y Solicitudes</h2>
 
-    <form action="/reservas" method="POST">
-        <input type="text" name="descripcion" placeholder="Descripción de la reserva" required>
-        <button type="submit">Guardar Reserva</button>
+    <p th:if="${param.error}" style="color:red; font-weight:bold;">
+        Error al procesar la reserva. Comprueba las fechas y el ID del inmueble.
+    </p>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID Reserva</th>
+                <th>Inmueble (ID)</th>
+                <th>Fechas</th>
+                <th>Estado</th>
+                <th>Pagado</th>
+                <th>Mensaje</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="reserva : ${reservas}">
+                <td th:text="${reserva.id}"></td>
+                <td th:text="${reserva.inmueble != null ? reserva.inmueble.direccion + ' (ID: ' + reserva.inmueble.id + ')' : 'N/A'}"></td>
+                <td th:text="${#dates.format(reserva.fechaInicio, 'dd/MM/yyyy')} + ' al ' + ${#dates.format(reserva.fechaFin, 'dd/MM/yyyy')}"></td>
+                
+                <td th:text="${reserva.activa ? 'Confirmada' : 'Pendiente (Solicitud)'}" 
+                    th:style="${reserva.activa ? 'color:green; font-weight:bold;' : 'color:orange; font-weight:bold;'}">
+                </td>
+                
+                <td th:text="${reserva.pagado ? 'Sí' : 'No'}"></td>
+                <td th:text="${reserva.descripcion}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr/>
+
+    <h2>Hacer una Nueva Reserva</h2>
+    <form action="/reservas" method="post">
+        ID del Inmueble a reservar: <input type="number" name="inmuebleId" required/><br><br>
+        
+        Fecha Inicio: <input type="date" name="fechaInicioStr" required/><br><br>
+        Fecha Fin: <input type="date" name="fechaFinStr" required/><br><br>
+        
+        Mensaje para el propietario: <input type="text" name="descripcion" required/><br><br>
+        
+        <button type="submit">Confirmar Reserva / Enviar Solicitud</button>
     </form>
-
-    <h2>Listado:</h2>
-    <ul>
-        <li th:each="r : ${reservas}" th:text="${r.descripcion}"></li>
-    </ul>
     
-    <a href="/login">Volver</a>
+    <br><br>
+    <a href="/listarInmuebles">Volver a ver todos los inmuebles</a>
+
 </body>
 </html>
