@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import es.uclm.sprintforge.persistencia.InmuebleDAO;
+import es.uclm.sprintforge.persistencia.UsuarioDAO;
 
 @Controller
 public class ListadoController {
@@ -12,10 +13,14 @@ public class ListadoController {
     @Autowired
     private InmuebleDAO inmuebleDAO;
 
+    @Autowired
+    private UsuarioDAO usuarioDAO;
+
     @GetMapping("/listarInmuebles")
-    public String listarInmuebles(Model model) {
-        // Carga todos los inmuebles de la base de datos y se los pasa al HTML
+    public String listar(Model model) {
         model.addAttribute("lista", inmuebleDAO.findAll());
-        return "listarInmuebles"; 
+        // Pasamos los usuarios para ver los logins en la pantalla
+        model.addAttribute("usuarios", usuarioDAO.findAll()); 
+        return "listarInmuebles";
     }
 }

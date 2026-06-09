@@ -24,7 +24,6 @@ public class ReservaController {
 
     @Autowired
     private UsuarioDAO usuarioDAO;
-
     @PostMapping("/reservar")
     public String hacerReserva(@RequestParam Long idInmueble,
                                @RequestParam String loginUsuario,
@@ -34,11 +33,12 @@ public class ReservaController {
         Inmueble inmueble = inmuebleDAO.findById(idInmueble).orElse(null);
         Usuario usuario = usuarioDAO.findByLogin(loginUsuario);
 
+        if (inmueble == null) System.out.println("DEBUG ERROR: Inmueble no encontrado");
+        if (usuario == null) System.out.println("DEBUG ERROR: Usuario no encontrado");
+
         if (inmueble != null && usuario != null) {
-            // Creamos y guardamos la reserva
             Reserva nuevaReserva = new Reserva("Reserva desde la web", usuario, inmueble, fechaInicio, fechaFin);
             reservaDAO.save(nuevaReserva);
-            
             return "redirect:/listarInmuebles?reservaExito";
         }
 

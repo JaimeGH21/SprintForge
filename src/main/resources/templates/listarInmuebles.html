@@ -3,6 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestión de Inmuebles</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ccc; padding: 10px; vertical-align: top; text-align: left; }
+        th { background-color: #f4f4f4; }
+        
+        /* Estilos de botones y formularios */
+        td form { display: flex; flex-direction: column; gap: 5px; margin: 0; }
+        td input { width: 100%; padding: 4px; box-sizing: border-box; }
+        td button { cursor: pointer; padding: 4px; font-size: 12px; }
+        
+        .error { color: red; font-weight: bold; }
+        .exito { color: green; font-weight: bold; }
+        .btn-delete { background-color: #ff4d4d; color: white; border: none; }
+        .btn-pay { background-color: #28a745; color: white; border: none; }
+    </style>
 </head>
 <body>
     <h2>Buscar disponibilidad</h2>
@@ -22,11 +38,14 @@
     
     <h2>Inmuebles Disponibles</h2>
     
-    <p th:if="${param.reservaExito}" style="color:green; font-weight:bold;">¡Reserva realizada con éxito!</p>
-    <p th:if="${param.errorReserva}" style="color:red; font-weight:bold;">Error: Comprueba que el usuario existe o los datos son correctos.</p>
-    <p th:if="${param.eliminado}" style="color:green; font-weight:bold;">Inmueble eliminado correctamente.</p>
+    <p th:if="${param.reservaExito}" class="exito">¡Reserva realizada con éxito!</p>
+    <p th:if="${param.errorReserva}" class="error">Error: Comprueba los datos (¿Login correcto?).</p>
+    <p th:if="${param.eliminado}" class="exito">Inmueble eliminado correctamente.</p>
+    <p th:if="${param.pagoExitoso}" class="exito">Pago procesado correctamente.</p>
+    <p th:if="${param.deseoExito}" class="exito">¡Inmueble añadido a tu lista de deseos!</p>
+    <p th:if="${param.error}" class="error">Error: No se pudo completar la operación.</p>
 
-    <table border="1">
+    <table>
         <thead>
             <tr>
                 <th>Dirección</th>
@@ -34,6 +53,7 @@
                 <th>Descripción</th>
                 <th>Reservar</th>
                 <th>Eliminar</th>
+                <th>Acciones Extra</th>
             </tr>
         </thead>
         <tbody>
@@ -41,19 +61,34 @@
                 <td th:text="${inmueble.direccion}"></td>
                 <td th:text="${inmueble.precio}"></td>
                 <td th:text="${inmueble.descripcion}"></td>
+                
                 <td>
                     <form action="/reservar" method="post">
                         <input type="hidden" name="idInmueble" th:value="${inmueble.id}" />
-                        <input type="text" name="loginUsuario" placeholder="Tu Login" required style="margin-bottom: 4px;"/><br>
-                        Inicio: <input type="date" name="fechaInicio" required style="margin-bottom: 4px;"/><br>
-                        Fin: <input type="date" name="fechaFin" required style="margin-bottom: 4px;"/><br>
-                        <button type="submit">Hacer Reserva</button>
+                        <input type="text" name="loginUsuario" placeholder="Tu Login" required/>
+                        <input type="date" name="fechaInicio" required/>
+                        <input type="date" name="fechaFin" required/>
+                        <button type="submit">Reservar</button>
                     </form>
                 </td>
+
                 <td>
-                    <form action="/inmueble/eliminar" method="post" onsubmit="return confirm('¿Seguro que quieres eliminar este inmueble?');">
+                    <form action="/inmueble/eliminar" method="post" onsubmit="return confirm('¿Seguro?');">
                         <input type="hidden" name="id" th:value="${inmueble.id}" />
-                        <button type="submit" style="background-color: red; color: white;">Eliminar</button>
+                        <button type="submit" class="btn-delete">Eliminar</button>
+                    </form>
+                </td>
+
+                <td>
+                    <form action="/listaDeseos/add" method="post">
+                        <input type="hidden" name="idInmueble" th:value="${inmueble.id}" />
+                        <input type="text" name="login" placeholder="Tu Login" required/>
+                        <button type="submit">Añadir a Deseos</button>
+                    </form>
+                    
+                    <form action="/pagar" method="post">
+                        <input type="text" name="idReserva" placeholder="ID Reserva" required/>
+                        <button type="submit" class="btn-pay">Pagar</button>
                     </form>
                 </td>
             </tr>
