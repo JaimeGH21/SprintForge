@@ -22,17 +22,17 @@
 </head>
 <body>
     <h2>Buscar disponibilidad</h2>
-    <form action="/buscar" method="get">
+    <form th:action="@{/buscar}" method="get">
         Inicio: <input type="date" name="fechaInicio" th:value="${fechaInicio}" required/>
         Fin: <input type="date" name="fechaFin" th:value="${fechaFin}" required/>
         <button type="submit">Filtrar</button>
-        <a href="/listarInmuebles">Ver todos</a>
+        <a th:href="@{/listarInmuebles}">Ver todos</a>
     </form>
     
     <hr/>
     
     <h2>Acciones</h2>
-    <a href="/inmueble/nuevo"><button>Añadir nuevo inmueble</button></a>
+    <a th:href="@{/inmueble/nuevo}"><button>Añadir nuevo inmueble</button></a>
     
     <hr/>
     
@@ -63,7 +63,7 @@
                 <td th:text="${inmueble.descripcion}"></td>
                 
                 <td>
-                    <form action="/reservar" method="post">
+                    <form th:action="@{/reservas}" method="post">
                         <input type="hidden" name="idInmueble" th:value="${inmueble.id}" />
                         <input type="text" name="loginUsuario" placeholder="Tu Login" required/>
                         <input type="date" name="fechaInicio" required/>
@@ -73,20 +73,20 @@
                 </td>
 
                 <td>
-                    <form action="/inmueble/eliminar" method="post" onsubmit="return confirm('¿Seguro?');">
+                    <form th:action="@{/inmueble/eliminar}" method="post" onsubmit="return confirm('¿Seguro?');">
                         <input type="hidden" name="id" th:value="${inmueble.id}" />
                         <button type="submit" class="btn-delete">Eliminar</button>
                     </form>
                 </td>
 
                 <td>
-                    <form action="/listaDeseos/add" method="post">
+                    <form th:action="@{/listaDeseos/add}" method="post">
                         <input type="hidden" name="idInmueble" th:value="${inmueble.id}" />
                         <input type="text" name="login" placeholder="Tu Login" required/>
                         <button type="submit">Añadir a Deseos</button>
                     </form>
                     
-                    <form action="/pagar" method="post">
+                    <form th:action="@{/pagar}" method="post">
                         <input type="text" name="idReserva" placeholder="ID Reserva" required/>
                         <button type="submit" class="btn-pay">Pagar</button>
                     </form>

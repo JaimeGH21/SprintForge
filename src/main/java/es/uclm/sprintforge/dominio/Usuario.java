@@ -1,15 +1,22 @@
 package es.uclm.sprintforge.dominio;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Table;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "usuario") 
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo_usuario", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorValue("USUARIO") // <-- EL HACK PARA QUE SQLITE DEJE PASAR EL REGISTRO
 public class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     private String login;
     private String pass;
     private String nombre;
@@ -25,10 +32,6 @@ public class Usuario {
         this.apellidos = apellidos;
         this.direccion = direccion;
     }
-
-    // Getters y Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
 
     public String getLogin() { return login; }
     public void setLogin(String login) { this.login = login; }

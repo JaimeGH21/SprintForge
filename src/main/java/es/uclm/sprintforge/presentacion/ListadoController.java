@@ -19,8 +19,7 @@ public class ListadoController {
     @GetMapping("/listarInmuebles")
     public String listar(Model model) {
         model.addAttribute("lista", inmuebleDAO.findAll());
-        // Pasamos los usuarios para ver los logins en la pantalla
-        model.addAttribute("usuarios", usuarioDAO.findAll()); 
+        model.addAttribute("listaUsuarios", usuarioDAO.findAll()); 
         return "listarInmuebles";
     }
 }

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mis Notificaciones</title>
+</head>
+<body>
+    <h2>Notificaciones Recibidas</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Mensaje</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="notif : ${listaNotificaciones}">
+                <td th:text="${notif.usuario}"></td>
+                <td th:text="${notif.mensaje}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <a href="/reservas">Volver a hacer una reserva</a>
+</body>
+</html>

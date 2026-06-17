@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import es.uclm.sprintforge.dominio.Usuario;
+import es.uclm.sprintforge.dominio.Inquilino;
 import es.uclm.sprintforge.persistencia.UsuarioDAO;
 
 @Controller
@@ -14,13 +14,11 @@ public class RegistroInquilinoController {
     @Autowired
     private UsuarioDAO usuarioDAO;
 
-    // Carga tu HTML exacto
     @GetMapping("/registroInquilino")
     public String verRegistro() {
         return "registroInquilino"; 
     }
 
-    // Guarda los datos del formulario
     @PostMapping("/registroInquilino")
     public String registrarInquilino(
             @RequestParam String login, 
@@ -29,15 +27,27 @@ public class RegistroInquilinoController {
             @RequestParam String apellidos,
             @RequestParam String direccion) {
         
-        // Comprueba si el usuario ya existe para no duplicarlo
-        if (usuarioDAO.findByLogin(login) != null) {
-            return "redirect:/registroInquilino?error";
-        }
+        try {
+            // 1. Comprueba si el usuario existe
+            if (usuarioDAO.findByLogin(login) != null) {
+                return "redirect:/registroInquilino?error=existe";
+            }
 
-        // Crea el inquilino (Usuario) y lo guarda
-        Usuario nuevoInquilino = new Usuario(login, pass, nombre, apellidos, direccion);
-        usuarioDAO.save(nuevoInquilino);
-        
-        return "redirect:/login";
+            // 2. Intenta guardar el nuevo inquilino
+            Inquilino nuevoInquilino = new Inquilino(login, pass, nombre, apellidos, direccion);
+            usuarioDAO.save(nuevoInquilino);
+            
+            // 3. Si todo va bien, al login
+            return "redirect:/login";
+
+        } catch (Exception e) {
+            // ESCUDO ANTI-500: Si la base de datos falla, no rompemos la web.
+            System.out.println("====== ERROR REAL EN BASE DE DATOS ======");
+            System.out.println("Causa del fallo: " + e.getCause());
+            System.out.println("=========================================");
+            
+            // Redirigimos de forma segura
+            return "redirect:/registroInquilino?error=bd";
+        }
     }
 }

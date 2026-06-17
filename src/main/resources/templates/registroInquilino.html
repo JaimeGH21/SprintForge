@@ -11,7 +11,7 @@
         Error: El login ya existe o los datos son incorrectos.
     </div>
 
-    <form action="/registroInquilino" method="post">
+    <form th:action="@{/registroInquilino}" method="post">
         <label>Login:</label>
         <input type="text" name="login" required /><br><br>
         
@@ -31,6 +31,6 @@
     </form>
     
     <br/>
-    <a href="/login">Ya tengo cuenta (Ir al Login)</a>
+    <a th:href="@{/login}">Ya tengo cuenta (Ir al Login)</a>
 </body>
 </html>

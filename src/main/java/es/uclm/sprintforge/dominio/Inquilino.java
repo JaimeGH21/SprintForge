@@ -7,7 +7,9 @@ import jakarta.persistence.DiscriminatorValue;
 @DiscriminatorValue("INQUILINO")
 public class Inquilino extends Usuario {
 
-    public Inquilino() { super(); }
+    public Inquilino() { 
+        super(); 
+    }
 
     public Inquilino(String login, String pass, String nombre, String apellidos, String direccion) {
         super(login, pass, nombre, apellidos, direccion);

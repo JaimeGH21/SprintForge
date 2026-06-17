@@ -8,17 +8,20 @@ import es.uclm.sprintforge.negocio.GestorUsuarios;
 
 @Controller
 public class LoginController {
+
     @Autowired
     private GestorUsuarios gestor;
 
     @GetMapping("/login")
-    public String mostrarLogin() { return "login"; }
+    public String mostrarLogin() { 
+        return "login"; 
+    }
 
     @PostMapping("/login")
     public String procesarLogin(@RequestParam String login, @RequestParam String pass, HttpSession session) {
         if (gestor.validarUsuario(login, pass)) {
             session.setAttribute("usuarioLogueado", gestor.buscarUsuario(login));
-            return "redirect:/home";
+            return "redirect:/listarInmuebles";
         }
         return "redirect:/login?error";
     }
