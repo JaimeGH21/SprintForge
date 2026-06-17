@@ -22,9 +22,10 @@
 </head>
 <body>
     <h2>Buscar disponibilidad</h2>
-    <form th:action="@{/buscar}" method="get">
-        Inicio: <input type="date" name="fechaInicio" th:value="${fechaInicio}" required/>
-        Fin: <input type="date" name="fechaFin" th:value="${fechaFin}" required/>
+    <form th:action="@{/listarInmuebles}" method="get">
+        Inicio: <input type="date" name="fechaInicio" />
+        Fin: <input type="date" name="fechaFin" />
+        Destino: <input type="text" name="destino" placeholder="Ej: Madrid"/>
         <button type="submit">Filtrar</button>
         <a th:href="@{/listarInmuebles}">Ver todos</a>
     </form>
