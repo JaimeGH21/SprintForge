@@ -16,4 +16,14 @@ public interface InmuebleDAO extends JpaRepository<Inmueble, Long> {
 
     @Query("SELECT COUNT(d) FROM Disponibilidad d WHERE (d.fechaInicio <= :fin AND d.fechaFin >= :inicio)")
     long countSolapamientos(@Param("inicio") Date inicio, @Param("fin") Date fin);
+
+    @Query("SELECT DISTINCT i FROM Inmueble i LEFT JOIN Disponibilidad d ON i.id = d.inmueble.id " +
+           "WHERE i.precio <= :precioMax " +
+           "AND LOWER(i.direccion) LIKE LOWER(CONCAT('%', :ciudad, '%')) " +
+           "AND i.id NOT IN (SELECT d2.inmueble.id FROM Disponibilidad d2 " +
+           "WHERE (d2.fechaInicio <= :fin AND d2.fechaFin >= :inicio))")
+    List<Inmueble> findFiltrosAvanzados(@Param("inicio") Date inicio, 
+                                        @Param("fin") Date fin, 
+                                        @Param("precioMax") double precioMax, 
+                                        @Param("ciudad") String ciudad);
 }
