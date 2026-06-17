@@ -23,7 +23,20 @@ public class GestorReservas {
         return reservaDAO.findByUsuario(usuario);
     }
 
-    public Reserva procesarReserva(Usuario usuario, Inmueble inmueble, Date fechaInicio, Date fechaFin, String descripcion) {
+    public Reserva procesarReserva(Usuario usuario, Inmueble inmueble, Date fechaInicio, Date fechaFin, String descripcion) throws IllegalArgumentException {
+        
+        // 1. Validar que la fecha de inicio no es posterior a la de fin
+        if (fechaInicio != null && fechaFin != null && fechaInicio.after(fechaFin)) {
+            throw new IllegalArgumentException("La fecha de inicio debe ser anterior a la fecha de fin.");
+        }
+
+        // 2. Comprobar que el inmueble está libre en esas fechas usando la BD
+        List<Reserva> solapadas = reservaDAO.findReservasSolapadas(inmueble, fechaInicio, fechaFin);
+        if (solapadas != null && !solapadas.isEmpty()) {
+            throw new IllegalArgumentException("El inmueble ya está ocupado en las fechas seleccionadas.");
+        }
+
+        // 3. Crear la reserva si las fechas son válidas y están libres
         Reserva nuevaReserva;
 
         if (inmueble.isDirecta()) {
@@ -33,7 +46,7 @@ public class GestorReservas {
         } else {
             SolicitudReserva solicitud = new SolicitudReserva(descripcion, usuario, inmueble, fechaInicio, fechaFin);
             solicitud.setConfirmada(false);
-            solicitud.setActiva(false);
+            solicitud.setActiva(false); // Inactiva hasta que el dueño apruebe
             solicitud.setPagado(false);
             nuevaReserva = solicitud;
         }
@@ -42,7 +55,6 @@ public class GestorReservas {
         return nuevaReserva;
     }
 
-    // --- NUEVOS MÉTODOS ---
     public List<SolicitudReserva> getSolicitudesPendientes() {
         return reservaDAO.findAllSolicitudesPendientes();
     }
@@ -52,7 +64,7 @@ public class GestorReservas {
         if (r instanceof SolicitudReserva) {
             SolicitudReserva s = (SolicitudReserva) r;
             s.setConfirmada(true);
-            s.setActiva(true);
+            s.setActiva(true); 
             reservaDAO.save(s);
         }
     }
