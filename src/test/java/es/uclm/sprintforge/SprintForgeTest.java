@@ -1,14 +1,11 @@
 package es.uclm.sprintforge;
-
-// Importaciones de JUnit 5 (las más comunes con Java 17)
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import es.uclm.sprintforge.negocio.GestorUsuarios;
 
 public class SprintForgeTest {
-
     @Test
-    public void tuPrimerTest() {
-        assertTrue(true, "El test funciona correctamente");
+    public void testRapido() {
+        // Esto ejecuta una línea de tu código real
+        new GestorUsuarios().validarUsuario("a", "b");
     }
-    
 }
