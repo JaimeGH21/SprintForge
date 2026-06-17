@@ -15,6 +15,9 @@ public class GestorReservas {
     @Autowired
     private ReservaDAO reservaDAO;
 
+    @Autowired
+    private ServicioNotificaciones servicioNotificaciones;
+
     public void guardar(Reserva reserva) {
         reservaDAO.save(reserva);
     }
@@ -43,12 +46,20 @@ public class GestorReservas {
             nuevaReserva = new Reserva(descripcion, usuario, inmueble, fechaInicio, fechaFin);
             nuevaReserva.setActiva(true);
             nuevaReserva.setPagado(true);
+            
+            //Notificar éxito 
+            servicioNotificaciones.enviarNotificacionReserva(usuario, nuevaReserva, "Confirmada (Reserva Directa)");
         } else {
             SolicitudReserva solicitud = new SolicitudReserva(descripcion, usuario, inmueble, fechaInicio, fechaFin);
             solicitud.setConfirmada(false);
             solicitud.setActiva(false); // Inactiva hasta que el dueño apruebe
+
+            solicitud.setActiva(false); 
             solicitud.setPagado(false);
             nuevaReserva = solicitud;
+            
+            // Notificar que está pendiente de aprobación 
+            servicioNotificaciones.enviarNotificacionReserva(usuario, nuevaReserva, "Pendiente de aprobación por el propietario");
         }
 
         reservaDAO.save(nuevaReserva);
@@ -66,6 +77,9 @@ public class GestorReservas {
             s.setConfirmada(true);
             s.setActiva(true); 
             reservaDAO.save(s);
+            
+            // Notificar al usuario que el propietario ha aceptado su solicitud 
+            servicioNotificaciones.enviarNotificacionReserva(s.getUsuario(), s, "Aceptada y Confirmada por el propietario");
         }
     }
 }
